@@ -1424,7 +1424,6 @@
         </sem_disambi>
         <role_linking>
           <int>antecedent</int>
-          <ext>consequent</ext>
         </role_linking>
         <examples edit="TODO"/>
       </sem>
