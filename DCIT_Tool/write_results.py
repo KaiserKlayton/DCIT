@@ -7,30 +7,36 @@
 from bs4 import BeautifulSoup
 
 def write_results(tweets, input_path, output_path):
-	currentfile = None
+	# these are needed here (and as arrays or similar), because they
+	# are assigned in nested functions.
+	currentfile = [None]
+	soup = [None]
 	
 	def write():
-		if currentfile != None:
+		if currentfile[0] != None:
 			outfile = open(output_path+currentfile+"_new.xml",'w')
-			outfile.write(soup.prettify().encode("utf-8"))
+			outfile.write(soup[0].prettify().encode("utf-8"))
 			#outfile.write(unicode(soup).encode("utf-8")) # without indenting and w/ wonky newlines
 			outfile.close()
-	
-	for t in tweets:
+
+	def loop_content(t):
 		# For D-Buggin'
 		#t.print_dcs()
-		if t.filename != currentfile:
+		if t.filename != currentfile[0]:
 			# every time we see a new file, write old one and open new one
 			write()	
-			currentfile = t.filename
-			soup = BeautifulSoup(open(input_path+currentfile), "html")
+			currentfile[0] = t.filename
+			soup[0] = BeautifulSoup(open(input_path+currentfile[0]), "html")
 	
 		# modify soup
 		
-		results = soup.findAll("tweet", {"id" : t.id})
+		results = soup[0].findAll("tweet", {"id" : t.id})
 		# there should always be one and only one match, hence results[0]
 		# add some additional attributes (just an example)
 		results[0]["hasDC"] = t.has_dc
 		results[0]["hasAmbiDC"] = t.has_ambi_dc
+
+	for t in tweets:
+		loop_content(t)
 		
 	write() # write the last one

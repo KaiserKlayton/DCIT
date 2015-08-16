@@ -28,9 +28,10 @@ def main ():
 	
 	days = []
 	# Get all files in filepath_tweetdirectory (only those for which we also have tagged).
-	#days = glob.glob(filepath_tweetdirectory+"*.xml")
+	days = glob.glob(filepath_tweetdirectory+"*.xml")
+	days = days[0:1]
 	# TESTING.
-	days = filepath_tweetdirectory+"toy.xml"
+	#days = filepath_tweetdirectory+"toy.xml"
 
 	"""
 	# using all the days we have
