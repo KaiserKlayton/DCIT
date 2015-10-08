@@ -20,7 +20,7 @@ from post_disambiguation_stats import post_disambiguation_stats
 
 def main ():
 	# Filepath handling.
-	filepath_dimlex = "../connectives-xml/dimlex.xml"
+	filepath_dimlex = "../connectives-xml//home/clayton/bin/DCIT/connectives-xml/dimlex-cc-by.xml"
 	filepath_tweetdirectory = "../tweets-xml/"	
 	filepath_output = "../results/"
 	if not os.path.exists(filepath_output):
