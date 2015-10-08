@@ -37,7 +37,7 @@ class DiscourseConnective():
 		self.ambi = entry.find("conn_d").text.lower()
 
 		# EXTRAS.
-		self.relation = entry.find("relation").text.lower()
+		#self.relation = entry.find("relation").text.lower()
 		try:
 			self.position = [ i.text.lower() for i in entry.findChildren("integr") ]
 		except:
