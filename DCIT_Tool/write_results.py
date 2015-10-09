@@ -1,6 +1,6 @@
-##!/usr/bin/env python
-## -*- coding: utf-8 -*-
-##
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 ## write_results.py
 ## Authors: J. Grasso & C. Violand
 ##

@@ -1,6 +1,6 @@
-##!/usr/env/python coding
-## -*- coding: utf-8 -*-
-##
+#!/usr/env/python coding
+# -*- coding: utf-8 -*-
+
 ## disambiguate.py
 ## Authors: C. Violand & J. Grasso
 ##

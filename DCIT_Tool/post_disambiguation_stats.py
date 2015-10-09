@@ -1,7 +1,7 @@
-##!/usr/bin/env python
-## -*- coding: utf-8 -*-
-##
-## test.py
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+## post-disambiguation-stats.py
 ## Authors: C. Violand & J. Grasso
 ##
  

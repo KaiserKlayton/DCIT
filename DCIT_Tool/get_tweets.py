@@ -1,6 +1,6 @@
-##!/usr/bin/env python
-## -*- coding: utf-8 -*-
-##
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 ## get_tweets.py
 ## Authors: J. Grasso & C. Violand
 ##
