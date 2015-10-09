@@ -11,6 +11,7 @@ MSc Program in Cognitive Systems
 cvioland@uni-potsdam.de
 ```
 # DCIT: Discourse Connectives in Twitter
+DCIT is a tool written in Python that analyzes the usage of discourse connectives in German Twitter data. Given a list of German discourse markers and one or more files containing German-language tweets, the tool counts possible discourse connectives, performs disambiguation on the ambiguous connectives, and re-counts, printing a summary of the information collected and outputting annotated versions of the tweets.
 ## To run on (a) specific file(s):
 $ python run.py a.xml b.xml
 <br>
