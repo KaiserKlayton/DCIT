@@ -183,9 +183,7 @@ def disambiguate(tweets, dcons):
 			else:
 				tagged_words[parts[1].lower()] = parts[2].lower()
 
-		# DISAMBIGUATION PROCESS.
-		ones_to_delete = []
-		twos_to_delete = []
+		# DISAMBIGUATION PROCESS.		
 		for x in t.dcs:
 			# If DC occurance is cited as ambiguous.
 			if x[1] == True:
@@ -200,7 +198,7 @@ def disambiguate(tweets, dcons):
 									### COMMENT OUT AFTER TESTING ###
 									#print "removing DC type 1 ", x[0].part_one[0]
 									###
-									ones_to_delete.append(x)
+									t.dcs.remove(x)
 									break							
 								elif tagged_words[k][1] in schneider_ones[j][1]:
 									# Maintain ambiguitiy of DiscourseConnective instance
