@@ -195,10 +195,6 @@ def disambiguate(tweets, dcons):
 							if schneider_ones[j][0] == k:
 								# Add to remove list if the part of speech matches the criteria for deletion.								
 								if tagged_words[k] in [ i.lower() for i in schneider_ones[j][2] ]:
-									print "SHOULD remove..."
-									print k
-									print tagged_words[k]
-									print
 									### COMMENT OUT AFTER TESTING ###
 									#print "removing DC type 1 ", x[0].part_one[0]
 									###
