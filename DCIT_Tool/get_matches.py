@@ -5,8 +5,8 @@
 ## Authors: C. Violand & J. Grasso
 ##
 
-from collections import Counter
 import re
+from collections import Counter
 
 def get_matches(tweets, dcons, info):
 	tweet_trigger = False
@@ -19,12 +19,18 @@ def get_matches(tweets, dcons, info):
 	
 		# DISCONTINUOUS CASES
 		for i in discontins:
-		
 			for j in range(len(i.ortho_blocks)):
+				if '.' in i.part_one[j]:
+					i.part_one[j] = i.part_one[j].replace('.', '')
+				if '.' in i.part_two[j]:
+					i.part_two[j] = i.part_two[j].replace('.', '')
 				if i.type_part_one[j] == "phrasal" and i.type_part_two[j] == "single":
 					index = 0
 					copy = t._original.lower()
 					while bool(re.search(r"\b%s\b" % i.part_one[j], t.raw)) and bool(re.search(r"\b%s\b" % i.part_two[j], t.raw)) and t.raw.find(i.part_one[j]) < t.raw.find(i.part_two[j]):	
+						### COMMENT OUT AFTER TESTING ###
+						print "Found a DC (phrasal-single)!"
+						###
 						tweet_trigger = True
 						# Update count of discontinuous DCs.
 						info.discontinuous += 1
@@ -50,6 +56,9 @@ def get_matches(tweets, dcons, info):
 					index = 0
 					copy = t._original.lower()
 					while bool(re.search(r"\b%s\b" % i.part_one[j], t.raw)) and bool(re.search(r"\b%s\b" % i.part_two[j], t.raw)) and t.raw.find(i.part_one[j]) < t.raw.find(i.part_two[j]):
+						### COMMENT OUT AFTER TESTING ###
+						print "Found a DC (single-phrasal)!"
+						###
 						tweet_trigger = True
 						# Update count of discontinuous DCs.
 						info.discontinuous += 1
@@ -74,6 +83,9 @@ def get_matches(tweets, dcons, info):
 					index = 0
 					copy = t._original.lower()
 					while bool(re.search(r"\b%s\b" % i.part_one[j], t.raw)) and bool(re.search(r"\b%s\b" % i.part_two[j], t.raw)) and t.raw.find(i.part_one[j]) < t.raw.find(i.part_two[j]):
+						### COMMENT OUT AFTER TESTING ###
+						print "Found a DC (single-single)!"
+						###
 						tweet_trigger = True
 						# Update count of discontinuous DCs.
 						info.discontinuous += 1
@@ -96,11 +108,16 @@ def get_matches(tweets, dcons, info):
 		# CONTINUOUS CASES
 		for i in contins:
 			for j in range(len(i.ortho_blocks)):
+				if '.' in i.part_one[j]:
+					i.part_one[j] = i.part_one[j].replace('.', '')
 				if i.type_part_one[j] == "phrasal":
 					index = 0
 					copy = t._original.lower()
 					while bool(re.search(r"\b%s\b" % i.part_one[j], t.raw)):
 						tweet_trigger = True
+						### COMMENT OUT AFTER TESTING ###
+						print "Found a DC (phrasal)!"
+						###
 						# Update count of discontinuous DCs.
 						info.continuous += 1
 						info.continuous_dict[i] += 1
@@ -124,6 +141,9 @@ def get_matches(tweets, dcons, info):
 					copy = t._original.lower()
 					while bool(re.search(r"\b%s\b" % i.part_one[j], t.raw)):
 						tweet_trigger = True
+						### COMMENT OUT AFTER TESTING ###
+						print "Found a DC (single)!"
+						###
 						# Update count of discontinuous DCs.
 						info.continuous += 1
 						info.continuous_dict[i] += 1	

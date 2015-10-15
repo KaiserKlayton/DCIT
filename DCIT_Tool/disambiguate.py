@@ -85,9 +85,12 @@ def disambiguate_remove_zeroes(dcons, zeros_limit = 0.8):
 	for d in dcons:
 		include = True	# all others added regardless
 		for s in schneider_zeros:
-			if s[1] == 0: #schneider type 0 added only if in limit
-				if (d.part_one[0].encode("utf-8") == s[0]) and ((200-s[1]) / float(200)) >= zeros_limit: 
-					include = False
+			#schneider type 0 added only if in limit
+			if (d.part_one[0].encode("utf-8") == s[0]) and ((200-s[1]) / float(200)) >= zeros_limit: 
+				include = False
+				### COMMENT OUT AFTER TESTING ###
+				print "removing DC type 0 ", s[0]
+				###
 		if include:
 			new_dcons.append(d)
 			
@@ -197,7 +200,7 @@ def disambiguate(tweets, dcons):
 								# Add to remove list if the part of speech matches the criteria for deletion.								
 								if tagged_words[k] in [ i.lower() for i in schneider_ones[j][2] ]:
 									### COMMENT OUT AFTER TESTING ###
-									#print "removing DC type 1 ", x[0].part_one[0]
+									print "removing DC type 1 ", x[0].part_one[0]
 									###
 									t.dcs.remove(x)
 									break							
@@ -213,7 +216,7 @@ def disambiguate(tweets, dcons):
 								if re.search(q,line):
 									t.dcs.remove(x)
 									### COMMENT OUT AFTER TESTING ###
-									#print "removing DC type 2 ", l
+									print "removing DC type 2 ", x[0].part_one[0]
 									###
 									break
 							else:	# If delete criteria is 'all'
@@ -222,7 +225,7 @@ def disambiguate(tweets, dcons):
 										if not re.search(p,line):
 											t.dcs.remove(x)
 											### COMMENT OUT AFTER TESTING ###[
-											#print "removing DC type 2 ", x[0].part_one[0]
+											print "removing DC type 2 ", x[0].part_one[0]
 											###
 											break
 
