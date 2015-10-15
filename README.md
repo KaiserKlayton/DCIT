@@ -18,7 +18,7 @@ $ python run.py a.xml b.xml
 ## To run on all files in ../tweets-xml/
 $ python run.py glob
 <br>
-### NOTE 
+### NOTES
 ```
 From within ~/DCIT_Tool, the following is assumed:
 1. Dimlex.html is in ../connectives-xml/dimlex.xml.
