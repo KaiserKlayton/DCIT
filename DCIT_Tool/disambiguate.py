@@ -204,9 +204,7 @@ def disambiguate(tweets, dcons):
 								elif tagged_words[k][1] in schneider_ones[j][1]:
 									# Maintain ambiguitiy of DiscourseConnective instance
 									pass
-						
-				
-									
+							
 				# HANDLING FOR SCHNEIDERS TYPE '2'.
 				for l in schneider_twos:
 					if x[0].part_one[0].encode("utf-8") == l:
