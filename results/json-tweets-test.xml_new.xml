@@ -5,7 +5,7 @@
  <body>
   <thread max_depth="8" size="155">
    <tweet depth="0" has_dc="False" id="319169767560851456" num_dcs="0" text="" user="unknown">
-    <tweet depth="1" has_dc="True" id="319207760187232256" num_dcs="5" text="@DeigningDiamond -- doch schnell anschnallte. Ich hatte DC/ja keine Ahnung, DC/wie schnell (DC/und auch sicher) dein Fahrstil war. Jetzt DC/wo ich DC/doch" user="533233145">
+    <tweet depth="1" has_dc="True" id="319207760187232256" num_dcs="5" text="@DeigningDiamond -- DC/doch schnell anschnallte. Ich hatte DC/ja keine Ahnung, DC/wie schnell (DC/und auch sicher) dein Fahrstil war. Jetzt DC/wo ich doch" user="533233145">
     </tweet>
    </tweet>
   </thread>
