@@ -35,7 +35,10 @@ class Tweet():
 		
 		# Does the Tweet object contain (a) discourse connective(s)?
 		self.dcs = []
-		
+
+		# Ambi still after ambiguation.
+		self.ambis = []
+
 		# Does the Tweet object contain (an) ambiguous DC(s)?
 		self.has_ambi_dc = False
 		# How many of each type?

@@ -8,6 +8,11 @@
 import re
 import string
 
+# TODO: 
+# 1. Add DC?/ tag. Or add removal tag? Or add ambiguous tag? (e.g. DC?/ RE/ AM/)
+# 2. Add Grassos functionality. (e.g. for 'ja')
+# 3. Fix functionality for b.z.w, etc...
+
 # SCHNEIDERS -->
 # DiscourseConnective objects that qualify for a certain amount of 
 # disambiguation confidence based on 1 of 3 disambiguation methods as 
@@ -25,7 +30,6 @@ schneider_ones = [('denn',['KON'],['ADV']),
 schneider_twos = ['also',
 					'auch',
 					'außer',
-					'da',
 					'darum',
 					'nebenher',
 					'nur',
@@ -34,6 +38,8 @@ schneider_twos = ['also',
 					'soweit',
 					'zugleich'
 					]
+
+schneider_two_special = ['da']
 
 schneider_zeros = [('und',79),
 					('als',17),
@@ -50,7 +56,7 @@ schneider_zeros = [('und',79),
 					('seit',21),
 					('während',102),
 					('darauf',13),
-					('dabie',19),
+					('dabei',19),
 					('allein',17),
 					('wegen',191),
 					('dafür',22),
@@ -69,7 +75,7 @@ schneider_zeros = [('und',79),
 					('danach',115),
 					('wonach',14),
 					('worauf',97),
-					('weshalb',76),
+					('deshalb',76),
 					('seitdem',61),
 					('womit',91),
 					('aufgrund',0),
@@ -79,8 +85,10 @@ schneider_zeros = [('und',79),
 					('weswegen',89)
 					]
 
+grassos = ['ja']
+
 # HANDLING FOR SCHNEIDERS TYPE '0'.
-def disambiguate_remove_zeroes(dcons, zeros_limit = 0.8):
+def disambiguate_remove_zeroes(dcons, zeros_limit = 0.8):		
 	new_dcons = []
 	for d in dcons:
 		include = True	# all others added regardless
@@ -112,8 +120,7 @@ def disambiguate(tweets, dcons):
 				re.compile(r'[a-zA-ZäöüßÄÖÜẞ]+\/da\/KOUS'),
 				re.compile(r'[\S]+\/[\S]+\/\$[\S]* [a-zA-ZäöüßÄÖÜẞ]+\/[a-zA-ZäöüßÄÖÜẞ]+\/KON [a-zA-ZäöüßÄÖÜẞ]+\/da\/ADV')],
 		'darum' : ["all"],
-		'nebenher': [re.compile(r'\.\/\.\/\$\. [a-zA-ZäöüßÄÖÜẞ]+\/nebenher\/ADV [a-zA-ZäöüßÄÖÜẞ]+\/[a-zA-ZäöüßÄÖÜẞ]+\/VVFIN'),
-					 "all"],
+		'nebenher': ["all"],
 		'nur' : [re.compile(r'\.\/\.\/\$\. [a-zA-ZäöüßÄÖÜẞ]+\/nur\/ADV [a-zA-ZäöüßÄÖÜẞ]+\/[a-zA-ZäöüßÄÖÜẞ]+\/VVFIN')],
 		'so' : [re.compile(r',\/,\/\$, [a-zA-ZäöüßÄÖÜẞ]+\/so\/ADV [a-zA-ZäöüßÄÖÜẞ]+\/[a-zA-ZäöüßÄÖÜẞ]+\/KOUS'),
 				re.compile(r',\/,\/\$, [a-zA-ZäöüßÄÖÜẞ]+\/so\/ADV [a-zA-ZäöüßÄÖÜẞ]+\/[a-zA-ZäöüßÄÖÜẞ]+\/VFIN'),
@@ -186,7 +193,6 @@ def disambiguate(tweets, dcons):
 			else:
 				tagged_words[parts[1].lower()] = parts[2].lower()
 
-
 		# DISAMBIGUATION PROCESS.		
 		for x in t.dcs:
 			# If DC occurance is cited as ambiguous.
@@ -199,35 +205,48 @@ def disambiguate(tweets, dcons):
 							if schneider_ones[j][0] == k:
 								# Add to remove list if the part of speech matches the criteria for deletion.								
 								if tagged_words[k] in [ i.lower() for i in schneider_ones[j][2] ]:
+									t.dcs.remove(x)
 									### COMMENT OUT AFTER TESTING ###
 									print "removing DC type 1 ", x[0].part_one[0]
 									###
-									t.dcs.remove(x)
 									break							
 								elif tagged_words[k][1] in schneider_ones[j][1]:
-									# Maintain ambiguitiy of DiscourseConnective instance
 									pass
+								else:
+									# Remains ambiguous.
+									t.ambis.append(x)
+									### COMMENT OUT AFTER TESTING ###
+									print "DC type 1 remains ambiguous ", x[0].part_one[0]
+									###
 							
 				# HANDLING FOR SCHNEIDERS TYPE '2'.
 				for l in schneider_twos:
 					if x[0].part_one[0].encode("utf-8") == l:
 						for q in not_contexts[l]:
-							if q != "all":
-								if re.search(q,line):
-									t.dcs.remove(x)
-									### COMMENT OUT AFTER TESTING ###
-									print "removing DC type 2 ", x[0].part_one[0]
-									###
-									break
-							else:	# If delete criteria is 'all'
-								for p in contexts[l]:
-									if p != "all":
-										if not re.search(p,line):
-											t.dcs.remove(x)
-											### COMMENT OUT AFTER TESTING ###[
-											print "removing DC type 2 ", x[0].part_one[0]
-											###
-											break
+							if re.search(q,line):
+								t.dcs.remove(x)
+								### COMMENT OUT AFTER TESTING ###
+								print "removing DC type 2 ", x[0].part_one[0]
+								###
 
+				for l in schneider_two_special:
+					if x[0].part_one[0].encode("utf-8") == l:
+						for q in not_contexts[l]:
+							if re.search(q,line):
+								t.dcs.remove(x)
+								### COMMENT OUT AFTER TESTING ###
+								print "removing DC type 2 ", x[0].part_one[0]
+								###
+								break
+							else:
+								for p in contexts[l]:
+									if not re.search(p,line):
+										# Remains ambiguous.
+										t.ambis.append(x)
+										### COMMENT OUT AFTER TESTING ###
+										print "DC type 2 remains ambiguous ", x[0].part_one[0]
+										###
+										break
+										
 		yield t
 

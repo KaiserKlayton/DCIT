@@ -37,6 +37,7 @@ def write_results(tweets, input_path, output_path):
 		n = 0
 		text = results[0]["text"]
 		tag = "DC/"
+		tag2 = "AM/"
 		oldindex = 0
 		newtext = ""
 		
@@ -47,6 +48,16 @@ def write_results(tweets, input_path, output_path):
 				newtext = newtext + text[oldindex:d[2]] + tag
 			n += 1
 			oldindex = d[2]
+		# end of string
+		newtext = newtext + text[oldindex:]
+
+		for a in sorted(t.ambis, key=lambda x:x[2]):
+			if n == 0:	# first
+				newtext = text[:a[2]] + tag2
+			else: # all others
+				newtext = newtext + text[oldindex:a[2]] + tag2
+			n += 1
+			oldindex = a[2]
 		# end of string
 		newtext = newtext + text[oldindex:]
 		
