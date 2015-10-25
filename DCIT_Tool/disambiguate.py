@@ -8,11 +8,6 @@
 import re
 import string
 
-# TODO: 
-# 1. Add DC?/ tag. Or add removal tag? Or add ambiguous tag? (e.g. DC?/ RE/ AM/)
-# 2. Add Grassos functionality. (e.g. for 'ja')
-# 3. Fix functionality for b.z.w, etc...
-
 # SCHNEIDERS -->
 # DiscourseConnective objects that qualify for a certain amount of 
 # disambiguation confidence based on 1 of 3 disambiguation methods as 
@@ -39,6 +34,7 @@ schneider_twos = ['also',
 					'zugleich'
 					]
 
+# Only case where there is no "all" involved.
 schneider_two_special = ['da']
 
 schneider_zeros = [('und',79),
@@ -84,8 +80,6 @@ schneider_zeros = [('und',79),
 					('nebenher',107),
 					('weswegen',89)
 					]
-
-grassos = ['ja']
 
 # HANDLING FOR SCHNEIDERS TYPE '0'.
 def disambiguate_remove_zeroes(dcons, zeros_limit = 0.8):		
@@ -231,22 +225,30 @@ def disambiguate(tweets, dcons):
 
 				for l in schneider_two_special:
 					if x[0].part_one[0].encode("utf-8") == l:
+						flag = False
 						for q in not_contexts[l]:
 							if re.search(q,line):
 								t.dcs.remove(x)
 								### COMMENT OUT AFTER TESTING ###
 								print "removing DC type 2 ", x[0].part_one[0]
 								###
+								flag == True
 								break
-							else:
-								for p in contexts[l]:
-									if not re.search(p,line):
-										# Remains ambiguous.
-										t.ambis.append(x)
-										### COMMENT OUT AFTER TESTING ###
-										print "DC type 2 remains ambiguous ", x[0].part_one[0]
-										###
-										break
+								
+						# Reason to keep.
+						for p in contexts[l]:
+							if re.search(p,line):
+								flag == True
+								break
+						
+						# Reason to add ambigous tag.
+						if flag == False:
+							# Remains ambiguous.
+							t.ambis.append(x)
+							### COMMENT OUT AFTER TESTING ###
+							print "DC type 2 remains ambiguous ", x[0].part_one[0]
+							###
+							break								
 										
 		yield t
 

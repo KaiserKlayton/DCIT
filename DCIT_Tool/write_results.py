@@ -36,8 +36,8 @@ def write_results(tweets, input_path, output_path):
 		# add tags to the text itself marking where (potential) DCs were found
 		n = 0
 		text = results[0]["text"]
-		tag = "DC/"
-		tag2 = "AM/"
+		tag = " DC/"
+		tag2 = " AM/"
 		oldindex = 0
 		newtext = ""
 		
